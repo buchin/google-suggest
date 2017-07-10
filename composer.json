@@ -1,0 +1,22 @@
+{
+    "name": "buchin/google-suggest",
+    "description": "Google keyword suggestion scraper",
+    "type": "library",
+    "require-dev": {
+        "kahlan/kahlan": "^3.1"
+    },
+    "license": "Halal",
+    "authors": [
+        {
+            "name": "Mochammad Masbuchin",
+            "email": "buchin@dropsugar.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Buchin\\GoogleSuggest\\": "src/"
+        }
+    }
+}
