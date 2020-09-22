@@ -5,8 +5,7 @@
 */
 class GoogleSuggest
 {
-
-	public static function grab($keyword = '', $lang = '', $country = '', $source = '')
+	public static function grab($keyword = '', $lang = '', $country = '', $source = '', $proxy = '')
 	{
         $url = 'http://google.com/complete/search?';
         $out = [];
@@ -29,8 +28,16 @@ class GoogleSuggest
         }
 
         $url .= http_build_query($query);
+        if(!empty($proxy)) $proxy = "tcp://$proxy";
+        $aContext = array(
+            'http' => array(
+                'proxy'           => "$proxy",
+                'request_fulluri' => true,
+            ),
+        );
 
-		if($content = trim(file_get_contents($url)));
+        $cxContext = stream_context_create($aContext);
+		if($content = trim(file_get_contents($url, false, $cxContext)));
         {
             $xml = simplexml_load_string(utf8_encode($content));
 
