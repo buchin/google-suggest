@@ -1,14 +1,15 @@
 <?php namespace Buchin\GoogleSuggest;
 
 /**
-* 
+*
 */
 class GoogleSuggest
 {
-	
+
 	public static function grab($keyword = '', $lang = '', $country = '', $source = '')
 	{
         $url = 'http://google.com/complete/search?';
+        $out = [];
 
         $query = [
             'output' => 'toolbar',
@@ -32,7 +33,7 @@ class GoogleSuggest
 		if($content = trim(file_get_contents($url)));
         {
             $xml = simplexml_load_string(utf8_encode($content));
-            
+
             foreach($xml->CompleteSuggestion as $sugg)
                 $out[] = (string)$sugg->suggestion['data'];
         }
