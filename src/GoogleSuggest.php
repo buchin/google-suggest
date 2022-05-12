@@ -28,13 +28,26 @@ class GoogleSuggest
         }
 
         $url .= http_build_query($query);
-        if(!empty($proxy)) $proxy = "tcp://$proxy";
-        $aContext = array(
-            'http' => array(
-                'proxy'           => "$proxy",
+
+        $aContext = [
+            'http' => [
                 'request_fulluri' => true,
-            ),
-        );
+            ]
+        ];
+
+        if(!empty($proxy)){
+            $proxy = 'http://' . $proxy;
+
+            $proxy = parse_url($proxy);
+
+            if(isset($proxy['host']) && isset($proxy['port'])){
+                $aContext['http']['proxy'] = 'tcp://' . $proxy['host'] . ':' . $proxy['port'];
+            }
+
+            if(isset($proxy['user']) && isset($proxy['pass'])){
+                $aContext['http']['header'] = "Proxy-Authorization: Basic " . base64_encode($proxy['user'] . ':' . $proxy['pass']);
+            }
+        }
 
         $cxContext = stream_context_create($aContext);
 		if($content = trim(file_get_contents($url, false, $cxContext)));
